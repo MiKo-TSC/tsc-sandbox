@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#190d35">
+  <title>Ein Abend voller Glitzer ✨</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #fffaf1;
+      --muted: #d9cee9;
+      --pink: #ff77b7;
+      --yellow: #ffe175;
+      --violet: #9a7cff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: var(--ink);
+      font-family: ui-rounded, "Trebuchet MS", system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 100%, #552b79 0%, transparent 52%),
+        radial-gradient(circle at 12% 18%, #402760 0, transparent 25%),
+        linear-gradient(145deg, #100a24, #21103d 58%, #160b2b);
+    }
+    .scene { position: relative; display: grid; min-height: 100svh; place-items: center; padding: 56px 20px 48px; isolation: isolate; }
+    .stars, .confetti { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+    .stars i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff8ce; opacity: .6; animation: twinkle 2.5s ease-in-out infinite alternate; }
+    .confetti b { position: absolute; top: -15vh; left: var(--x); width: 9px; height: 15px; border-radius: 3px; background: var(--c); opacity: .8; transform: rotate(var(--r)); animation: fall var(--d) linear infinite; animation-delay: var(--delay); }
+    .card { width: min(100%, 720px); position: relative; padding: clamp(30px, 7vw, 68px); border: 1px solid #ffffff25; border-radius: 32px; background: linear-gradient(145deg, #ffffff13, #ffffff08); box-shadow: 0 28px 100px #09041488, inset 0 1px #ffffff18; text-align: center; backdrop-filter: blur(12px); }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid #ffffff2b; border-radius: 99px; color: var(--yellow); font-size: .78rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 24px 0 14px; font-size: clamp(2.8rem, 9vw, 6rem); line-height: .94; letter-spacing: -.065em; }
+    h1 span { display: block; color: var(--pink); text-shadow: 0 0 32px #ff77b755; }
+    .intro { max-width: 470px; margin: 0 auto; color: var(--muted); font-size: clamp(1rem, 2.6vw, 1.2rem); line-height: 1.7; }
+    .disco { position: relative; width: 126px; height: 126px; margin: 32px auto 30px; border: 1px solid #ffffff38; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #fff, #ffc3e4 8%, #a88aff 28%, #512b7c 65%, #24113c 75%); box-shadow: 0 0 35px #b982ff66, 0 0 90px #ff77b72b; animation: float 3s ease-in-out infinite; }
+    .disco::before, .disco::after { content: ""; position: absolute; top: 50%; width: 180px; height: 1px; background: linear-gradient(90deg, transparent, #ffe175bb, transparent); transform: rotate(-26deg); }
+    .disco::after { transform: rotate(26deg); background: linear-gradient(90deg, transparent, #ff77b7bb, transparent); }
+    .details { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 0 0 26px; }
+    .pill { padding: 10px 14px; border: 1px solid #ffffff20; border-radius: 99px; color: #f3eaff; background: #ffffff0b; font-size: .92rem; }
+    button { border: 0; padding: 15px 23px; border-radius: 99px; color: #24113c; background: linear-gradient(100deg, var(--yellow), #ffb5d8); box-shadow: 0 8px 30px #ff77b744; font: inherit; font-weight: 900; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+    button:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 12px 36px #ff77b766; }
+    button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    #cheer { min-height: 1.6em; margin: 16px 0 0; color: var(--yellow); font-weight: 700; }
+    .planner { margin-top: 34px; padding-top: 28px; border-top: 1px solid #ffffff24; text-align: left; }
+    .planner h2 { margin: 0 0 8px; text-align: center; font-size: 1.3rem; }
+    .planner-intro { margin: 0 0 16px; color: var(--muted); text-align: center; font-size: .92rem; }
+    .chat-log { display: flex; flex-direction: column; gap: 10px; max-height: 250px; overflow-y: auto; padding: 14px; border: 1px solid #ffffff20; border-radius: 18px; background: #100a2480; }
+    .bubble { max-width: 88%; padding: 10px 13px; border-radius: 15px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .bubble.bot { align-self: flex-start; color: var(--ink); background: #ffffff14; }
+    .bubble.user { align-self: flex-end; color: #24113c; background: linear-gradient(100deg, var(--yellow), #ffb5d8); }
+    .chat-form { display: flex; gap: 9px; margin-top: 10px; }
+    .chat-form input { min-width: 0; flex: 1; padding: 12px 14px; border: 1px solid #ffffff30; border-radius: 99px; outline: none; color: var(--ink); background: #100a2480; font: inherit; }
+    .chat-form input:focus { border-color: var(--pink); box-shadow: 0 0 0 3px #ff77b733; }
+    .chat-form button { padding: 12px 17px; }
+    .chat-status { min-height: 1.3em; margin: 8px 4px 0; color: var(--muted); font-size: .82rem; }
+    footer { margin-top: 28px; color: #b9a9ce; font-size: .85rem; }
+    @keyframes fall { to { transform: translate3d(12vw, 120vh, 0) rotate(740deg); } }
+    @keyframes twinkle { to { opacity: .12; transform: scale(.6); } }
+    @keyframes float { 50% { transform: translateY(-8px) rotate(4deg); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <main class="scene">
+    <section class="card" aria-labelledby="title">
+      <div class="eyebrow">✦ Du bist eingeladen ✦</div>
+      <h1 id="title">Ein Abend <span>voller Glitzer</span></h1>
+      <p class="intro">Gute Musik, liebe Menschen und vielleicht ein bisschen zu viel Konfetti. Wir machen’s uns schön — und du gehörst dazu.</p>
+      <div class="disco" aria-hidden="true"></div>
+      <div class="details" aria-label="Party-Details">
+        <span class="pill">🎶 Lieblingssongs</span>
+        <span class="pill">🍰 Süße Kleinigkeiten</span>
+        <span class="pill">✨ Gute Laune erwünscht</span>
+      </div>
+      <button id="party-button" type="button">Konfetti los! 🎉</button>
+      <p id="cheer" aria-live="polite"></p>
+      <section class="planner" aria-labelledby="planner-title">
+        <h2 id="planner-title">Dein Partyplanungs-Buddy 🤖</h2>
+        <p class="planner-intro">Frag nach Dekoideen, Snacks, Musik oder einem entspannten Ablauf.</p>
+        <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-label="Chatverlauf">
+          <div class="bubble bot">Hey! Ich helfe dir beim Planen. Wie viele Gäste kommen ungefähr?</div>
+        </div>
+        <form class="chat-form" id="chat-form">
+          <input id="chat-input" name="message" maxlength="1200" placeholder="Schreib deine Frage …" autocomplete="off" required aria-label="Nachricht an den Partyplanungs-Buddy">
+          <button id="chat-send" type="submit">Senden</button>
+        </form>
+        <p class="chat-status" id="chat-status" aria-live="polite"></p>
+      </section>
+      <footer>Bring dein Lächeln mit. Den Rest regelt die Playlist. 💜</footer>
+    </section>
+  </main>
+  <script>
+    const stars = document.querySelector("#stars");
+    for (let i = 0; i < 55; i++) {
+      const star = document.createElement("i");
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.animationDelay = `${Math.random() * 3}s`;
+      stars.append(star);
+    }
+
+    const confetti = document.querySelector("#confetti");
+    const colors = ["#ff77b7", "#ffe175", "#9a7cff", "#7cebd3", "#fffaf1"];
+    for (let i = 0; i < 34; i++) {
+      const piece = document.createElement("b");
+      piece.style.setProperty("--x", `${Math.random() * 100}%`);
+      piece.style.setProperty("--c", colors[i % colors.length]);
+      piece.style.setProperty("--r", `${Math.random() * 180}deg`);
+      piece.style.setProperty("--d", `${7 + Math.random() * 10}s`);
+      piece.style.setProperty("--delay", `${Math.random() * -16}s`);
+      confetti.append(piece);
+    }
+
+    document.querySelector("#party-button").addEventListener("click", () => {
+      document.querySelector("#cheer").textContent = "Yay! Die Party kann starten! 🪩";
+      confetti.animate(
+        [{ transform: "translateY(-12vh)" }, { transform: "translateY(12vh)" }],
+        { duration: 650, iterations: 3, direction: "alternate", easing: "ease-in-out" }
+      );
+    });
+
+    const chatForm = document.querySelector("#chat-form");
+    const chatInput = document.querySelector("#chat-input");
+    const chatLog = document.querySelector("#chat-log");
+    const chatStatus = document.querySelector("#chat-status");
+    const chatSend = document.querySelector("#chat-send");
+    const history = [];
+
+    function addBubble(text, who) {
+      const bubble = document.createElement("div");
+      bubble.className = `bubble ${who}`;
+      bubble.textContent = text;
+      chatLog.append(bubble);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message || chatSend.disabled) return;
+      addBubble(message, "user");
+      history.push({ role: "user", content: message });
+      chatInput.value = "";
+      chatSend.disabled = true;
+      chatStatus.textContent = "Überlegt sich einen Partyplan …";
+
+      try {
+        const response = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: history.slice(-8) })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || "Der Chat ist gerade nicht erreichbar.");
+        const answer = typeof data.reply === "string" ? data.reply : "Ich habe gerade keine Antwort parat. Versuch es bitte nochmal.";
+        addBubble(answer, "bot");
+        history.push({ role: "assistant", content: answer });
+        if (history.length > 8) history.splice(0, history.length - 8);
+        chatStatus.textContent = "";
+      } catch (error) {
+        history.pop();
+        chatStatus.textContent = error.message || "Verbindung fehlgeschlagen. Bitte versuch es gleich nochmal.";
+      } finally {
+        chatSend.disabled = false;
+        chatInput.focus();
+      }
+    });
+  </script>
+</body>
+</html>
